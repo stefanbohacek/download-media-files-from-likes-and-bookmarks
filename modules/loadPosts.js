@@ -12,13 +12,17 @@ export default async (account) => {
     let likes = [];
     let bookmarks = [];
 
-    likes = JSON.parse(fs.readFileSync(`likes.json`, "utf8"))["orderedItems"];
-    bookmarks = JSON.parse(fs.readFileSync(`likes.json`, "utf8"))[
-      "orderedItems"
-    ];
-
-    likes = likes.filter((url) => url.startsWith(urlStart));
-    bookmarks = bookmarks.filter((url) => url.startsWith(urlStart));
+    try {
+      likes = JSON.parse(fs.readFileSync(`likes.json`, "utf8"))["orderedItems"];
+      bookmarks = JSON.parse(fs.readFileSync(`likes.json`, "utf8"))[
+        "orderedItems"
+      ];
+  
+      likes = likes.filter((url) => url.startsWith(urlStart));
+      bookmarks = bookmarks.filter((url) => url.startsWith(urlStart));
+    } catch (error) {
+      // console.log(error);      
+    }
 
     urls = [...new Set([...likes, ...bookmarks])];
   } else {
